@@ -14,6 +14,12 @@ public class DemoProjectApplication {
 		SpringApplication.run(DemoProjectApplication.class, args);
 	}
 
+	@GetMapping("/")
+	public String home(){
+		String texto = "Esta es la página inicial de Xavi Garcia!";
+		return texto;
+	}
+
 	@GetMapping("/hello")
 	public String hello(@RequestParam(value = "name", defaultValue = "World") String name){
 		return String.format("Hello %s!", name);
