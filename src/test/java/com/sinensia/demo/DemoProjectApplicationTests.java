@@ -29,7 +29,12 @@ class DemoProjectApplicationTests {
 	}
 
 	@Test
-	void helloTest(@Autowired TestRestTemplate restTemplate){
+	void helloTestDefault(@Autowired TestRestTemplate restTemplate){
+		assertThat(restTemplate.getForObject("/hello", String.class)).isEqualTo("Hello World!");
+	}
+
+	@Test
+	void helloTestVariable(@Autowired TestRestTemplate restTemplate){
 		assertThat(restTemplate.getForObject("/hello?name=Xavi", String.class)).isEqualTo("Hello Xavi!");
 	}
 }
