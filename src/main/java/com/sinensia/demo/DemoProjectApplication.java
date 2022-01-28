@@ -16,8 +16,7 @@ public class DemoProjectApplication {
 
 	@GetMapping("/")
 	public String home(){
-		String texto = "Esta es la página inicial de Xavi Garcia!";
-		return texto;
+		return "Esta es la página inicial de Xavi Garcia!";
 	}
 
 	@GetMapping("/hello")
@@ -25,4 +24,17 @@ public class DemoProjectApplication {
 		return String.format("Hello %s!", name);
 	}
 
+	@GetMapping("/add")
+	public int add(@RequestParam(value = "a", defaultValue = "0") Integer a,
+				   @RequestParam(value = "b", defaultValue = "0") Integer b){
+		return a+b;
+	}
+
+	@GetMapping("/test")
+	public int test(){
+		Integer a = 6;
+		Integer b = 6;
+
+		return a+b;
+	}
 }

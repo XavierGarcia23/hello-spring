@@ -1,6 +1,8 @@
 package com.sinensia.demo;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebClient
 class DemoProjectApplicationTests {
+
+	@Autowired TestRestTemplate restTemplate;
 
 	@Test
 	void contextLoads() {
@@ -36,5 +40,42 @@ class DemoProjectApplicationTests {
 	@Test
 	void helloTestVariable(@Autowired TestRestTemplate restTemplate){
 		assertThat(restTemplate.getForObject("/hello?name=Xavi", String.class)).isEqualTo("Hello Xavi!");
+	}
+
+	@Test
+	void helloTestVariables(@Autowired TestRestTemplate restTemplate){
+		String[] arr = {"Xavi", "Pedro"};
+		for(String name: arr) {
+			assertThat(restTemplate.getForObject("/hello?name=" + name, String.class))
+					.isEqualTo("Hello " + name + "!");
+		}
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"Pepe", "Paco", "Fran"})
+	void helloParamNames(String name){
+		assertThat(restTemplate.getForObject("/hello?name=" + name, String.class))
+				.isEqualTo("Hello " + name + "!");
+	}
+
+	@Test
+	void canAdd(@Autowired TestRestTemplate restTemplate){
+		assertThat(restTemplate.getForObject("/add?a=1&b=2", String.class)).isEqualTo("3");
+		assertThat(restTemplate.getForObject("/add?a=0&b=2", String.class)).isEqualTo("2");
+	}
+
+	@Test
+	void canAddNegative(@Autowired TestRestTemplate restTemplate){
+		assertThat(restTemplate.getForObject("/add?a=1&b=-2", String.class)).isEqualTo("-1");
+	}
+
+	/*@Test
+	void canAddCharacter(@Autowired TestRestTemplate restTemplate){
+		assertThat(restTemplate.getForObject("/add?a=z&b=2", String.class)).isEqualTo("-1");
+	}*/
+
+	@Test
+	void canTest(@Autowired TestRestTemplate restTemplate){
+		assertThat(restTemplate.getForObject("/test", String.class)).isEqualTo("12");
 	}
 }
