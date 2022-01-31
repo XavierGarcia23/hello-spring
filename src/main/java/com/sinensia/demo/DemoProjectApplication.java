@@ -25,9 +25,14 @@ public class DemoProjectApplication {
 	}
 
 	@GetMapping("/add")
-	public int add(@RequestParam(value = "a", defaultValue = "0") Integer a,
-				   @RequestParam(value = "b", defaultValue = "0") Integer b){
-		return a+b;
+	public Object add(@RequestParam(value = "a", defaultValue = "0") Float a,
+					 @RequestParam(value = "b", defaultValue = "0") Float b){
+		Float sum = a + b;
+		Float decimals = sum - sum.intValue();
+		if(decimals != 0){
+			return sum;
+		}
+		return Integer.valueOf(sum.intValue());
 	}
 
 	@GetMapping("/test")
