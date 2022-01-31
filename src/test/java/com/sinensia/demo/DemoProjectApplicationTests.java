@@ -197,6 +197,58 @@ class DemoProjectApplicationTests {
 		}
 	}
 
+	@Nested
+	@DisplayName("Application Tests Multiply")
+	class MultiplicationTests{
+		@DisplayName("Test Multiply Multiple, con CSV Interno")
+		@ParameterizedTest(name = "[{index}] ({arguments}) {0} * {1} = {2}")
+		@CsvSource({
+				"1, 2, 2",
+				"1, 1, 1",
+				"1.0, 1.0, 1",
+				"1, -2, -2",
+				"'', 2, 0",
+				"1.5, 1.5, 2.25"
+		})
+		void canMultiplyCsv(String a, String b, String expected){
+			assertThat(restTemplate.getForObject("/multiply?a=" + a + "&b=" + b, String.class))
+					.isEqualTo(expected);
+		}
+	}
+
+	@Nested
+	@DisplayName("Application Tests Subtraction")
+	class SubtractionTests{
+		@DisplayName("Test Subtraction Multiple, con CSV Interno")
+		@ParameterizedTest(name = "[{index}] ({arguments}) {0} * {1} = {2}")
+		@CsvSource({
+				"1, 1, 0",
+				"1, 2, -1",
+				"5.0, 2.0, 3",
+				"1, -2, 3",
+				"3.5, 1.25, 2.25"
+		})
+		void canSubstractCsv(String a, String b, String expected){
+			assertThat(restTemplate.getForObject("/subtraction?a=" + a + "&b=" + b, String.class))
+					.isEqualTo(expected);
+		}
+	}
+
+	@Nested
+	@DisplayName("Application Tests Division")
+	class DivisionTests{
+		@DisplayName("Test Division Multiple, con CSV Interno")
+		@ParameterizedTest(name = "[{index}] ({arguments}) {0} * {1} = {2}")
+		@CsvSource({
+				"4, 2, 2",
+				"6, 2, 3"
+		})
+		void canDivideCsv(String a, String b, String expected){
+			assertThat(restTemplate.getForObject("/division?a=" + a + "&b=" + b, String.class))
+					.isEqualTo(expected);
+		}
+	}
+
 	@DisplayName("Test Propio de Xavi")
 	@Test
 	void canTest(){

@@ -26,13 +26,46 @@ public class DemoProjectApplication {
 
 	@GetMapping("/add")
 	public Object add(@RequestParam(value = "a", defaultValue = "0") Float a,
-					 @RequestParam(value = "b", defaultValue = "0") Float b){
+					  @RequestParam(value = "b", defaultValue = "0") Float b){
 		Float sum = a + b;
 		Float decimals = sum - sum.intValue();
 		if(decimals != 0){
 			return sum;
 		}
 		return Integer.valueOf(sum.intValue());
+	}
+
+	@GetMapping("/multiply")
+	public Object multiply(@RequestParam(value = "a", defaultValue = "0") Float a,
+						   @RequestParam(value = "b", defaultValue = "0") Float b){
+		Float product = a * b;
+		Float decimals = product - product.intValue();
+		if(decimals != 0){
+			return product;
+		}
+		return Integer.valueOf(product.intValue());
+	}
+
+	@GetMapping("/subtraction")
+	public Object subtraction(@RequestParam(value = "a", defaultValue = "0") Float a,
+							  @RequestParam(value = "b", defaultValue = "0") Float b){
+		Float subtraction = a - b;
+		Float decimals = subtraction - subtraction.intValue();
+		if(decimals != 0){
+			return subtraction;
+		}
+		return Integer.valueOf(subtraction.intValue());
+	}
+
+	@GetMapping("/division")
+	public Object division(@RequestParam(value = "a", defaultValue = "0") Float a,
+						   @RequestParam(value = "b", defaultValue = "0") Float b){
+		Float division = a / b;
+		Float decimals = division - division.intValue();
+		if(decimals != 0){
+			return division;
+		}
+		return Integer.valueOf(division.intValue());
 	}
 
 	@GetMapping("/test")
