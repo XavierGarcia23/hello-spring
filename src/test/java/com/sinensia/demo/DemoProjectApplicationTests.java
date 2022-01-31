@@ -121,6 +121,27 @@ class DemoProjectApplicationTests {
 		});
 	}
 
+	@ParameterizedTest(name = "[{index}] ({arguments}) {0} + {1} = {2}")
+	@CsvSource({
+			"1, 2, 3",
+			"0, 2, 2",
+			"10, 2, 12",
+			"-1, 3, 2",
+			"1.5, 1, 2.5",
+			"1.25, 1.25, 2.5"
+	})
+	void canAddParameterizedFloatCsv(String a, String b, String expected){
+		assertThat(restTemplate.getForObject("/add?a=" + a + "&b=" + b, Float.class))
+				.isEqualTo(Float.parseFloat(expected));
+	}
+
+	/* Loss-of-precision by converting by converting Float return value into Integer
+	@Test
+	void canAddInteger(){
+		assertThat(restTemplate.getForObject("/add?a=1.5&b=2", Integer.class)).isEqualTo(3.5f);
+	}
+	*/
+
 	@Test
 	void canTest(){
 		assertThat(restTemplate.getForObject("/test", String.class)).isEqualTo("12");
