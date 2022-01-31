@@ -15,6 +15,7 @@ import org.springframework.web.client.RestClientException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebClient
@@ -182,6 +183,17 @@ class DemoProjectApplicationTests {
 		@Test
 		void appCanAddReturnsFloat(){
 			assertThat(app.add(1.5f, 2f)).isEqualTo(3.5f);
+		}
+
+		@DisplayName("App Test Retorno Null")
+		@Test
+		void appCanAddNull(){
+			Exception thrown = assertThrows(NullPointerException.class, ()->{
+				Float ret = (Float) app.add(null, 2f);
+			});
+
+			assertTrue(thrown.toString().contains("NullPointerException"));
+			// alternatively check thrown.getMessage().contains("");
 		}
 	}
 
