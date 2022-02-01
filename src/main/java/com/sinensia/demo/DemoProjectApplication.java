@@ -6,10 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.processing.Generated;
+
 @SpringBootApplication
 @RestController
 public class DemoProjectApplication {
 
+	@Generated(value="org.springframework.boot")
 	public static void main(String[] args) {
 		SpringApplication.run(DemoProjectApplication.class, args);
 	}
@@ -59,7 +62,12 @@ public class DemoProjectApplication {
 
 	@GetMapping("/division")
 	public Object division(@RequestParam(value = "a", defaultValue = "0") Float a,
-						   @RequestParam(value = "b", defaultValue = "0") Float b){
+						   @RequestParam(value = "b", defaultValue = "0") Float b
+	)throws Exception {
+		if (0f == b){
+			throw new Exception("Division by Zero");
+		}
+
 		Float division = a / b;
 		Float decimals = division - division.intValue();
 		if(decimals != 0){
@@ -67,6 +75,18 @@ public class DemoProjectApplication {
 		}
 		return Integer.valueOf(division.intValue());
 	}
+
+	/* Otro ejemplo con decimales
+	public BigDecimal division(@RequestParam(value = "a", defaultValue = "0") BigDecimal a,
+							   @RequestParam(value = "b", defaultValue = "0") BigDecimal b
+	) trhows Exception{
+		if (b.equals(0)){
+			throw new Exception("Division by Zero");
+		}
+
+		return a.divide(b, 2, HALF_DOWN);
+	}
+	*/
 
 	@GetMapping("/test")
 	public int test(){

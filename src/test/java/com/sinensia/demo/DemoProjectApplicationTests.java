@@ -241,11 +241,23 @@ class DemoProjectApplicationTests {
 		@ParameterizedTest(name = "[{index}] ({arguments}) {0} * {1} = {2}")
 		@CsvSource({
 				"4, 2, 2",
-				"6, 2, 3"
+				"6, 2, 3",
+				"10, 2, 5",
+				"10, -1, -10",
+				" 1.0, 1.0, 1",
+				"10, 3, 3.3333333"
 		})
 		void canDivideCsv(String a, String b, String expected){
 			assertThat(restTemplate.getForObject("/division?a=" + a + "&b=" + b, String.class))
 					.isEqualTo(expected);
+		}
+
+		@DisplayName("Test Division by Zero")
+		@Test
+		void canDivideByZero(){
+			Exception thrown = assertThrows(RestClientException.class, ()->{
+				restTemplate.getForObject("/division?a=10&b=0", Float.class);
+			});
 		}
 	}
 
