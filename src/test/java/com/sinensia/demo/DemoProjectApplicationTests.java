@@ -261,6 +261,30 @@ class DemoProjectApplicationTests {
 		}
 	}
 
+	@Nested
+	@DisplayName("Application Tests Raiz Cuadrada")
+	class RaizCuadradaTests{
+		@DisplayName("Test Raiz Cuadrada Multiple, con CSV Interno")
+		@ParameterizedTest(name = "[{index}] ({arguments}) Raiz Cuadrada de {0} = {1}")
+		@CsvSource({
+				"16, 4.0",
+				"25, 5.0",
+				"12, 3.5",
+				"0, 0.0"
+		})
+		void canSqrtCsv(String a, String expected){
+			assertThat(restTemplate.getForObject("/sqrt?a=" + a, String.class))
+					.isEqualTo(expected);
+		}
+
+		@Test
+		void canSqrtNegative(){
+			Exception thrown = assertThrows(RestClientException.class, ()->{
+				restTemplate.getForObject("/sqrt?a=-1", Float.class);
+			});
+		}
+	}
+
 	@DisplayName("Test Propio de Xavi")
 	@Test
 	void canTest(){

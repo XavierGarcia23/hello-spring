@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.processing.Generated;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 @SpringBootApplication
 @RestController
@@ -87,6 +89,25 @@ public class DemoProjectApplication {
 		return a.divide(b, 2, HALF_DOWN);
 	}
 	*/
+
+	@GetMapping("/sqrt")
+	public Float sqrt(@RequestParam(value = "a", defaultValue = "0") Float a
+	) throws Exception {
+		if (a < 0){
+			throw new Exception("Raiz Cuadrada de un numero negativo da error");
+		}
+
+		BigDecimal number = BigDecimal.valueOf(a);
+
+		number = number.sqrt(new MathContext(2));
+
+		return number.floatValue();
+
+		/*Integer number = a;
+		double result = Math.sqrt(number);
+
+		return result;*/
+	}
 
 	@GetMapping("/test")
 	public int test(){
