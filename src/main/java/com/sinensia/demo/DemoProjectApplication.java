@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.processing.Generated;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 @SpringBootApplication
 @RestController
@@ -32,38 +33,38 @@ public class DemoProjectApplication {
 	@GetMapping("/add")
 	public Object add(@RequestParam(value = "a", defaultValue = "0") Float a,
 					  @RequestParam(value = "b", defaultValue = "0") Float b){
-		Float sum = a + b;
-		Float decimals = sum - sum.intValue();
+		float sum = a + b;
+		float decimals = sum - (int) sum;
 		if(decimals != 0){
 			return sum;
 		}
-		return Integer.valueOf(sum.intValue());
+		return (int) sum;
 	}
 
 	@GetMapping("/multiply")
 	public Object multiply(@RequestParam(value = "a", defaultValue = "0") Float a,
 						   @RequestParam(value = "b", defaultValue = "0") Float b){
-		Float product = a * b;
-		Float decimals = product - product.intValue();
+		float product = a * b;
+		float decimals = product - (int) product;
 		if(decimals != 0){
 			return product;
 		}
-		return Integer.valueOf(product.intValue());
+		return (int) product;
 	}
 
 	@GetMapping("/subtraction")
 	public Object subtraction(@RequestParam(value = "a", defaultValue = "0") Float a,
 							  @RequestParam(value = "b", defaultValue = "0") Float b){
-		Float subtraction = a - b;
-		Float decimals = subtraction - subtraction.intValue();
+		float subtraction = a - b;
+		float decimals = subtraction - (int) subtraction;
 		if(decimals != 0){
 			return subtraction;
 		}
-		return Integer.valueOf(subtraction.intValue());
+		return (int) subtraction;
 	}
 
-	@GetMapping("/division")
-	public Object division(@RequestParam(value = "a", defaultValue = "0") Float a,
+	//@GetMapping("/division")
+	/*public Object division(@RequestParam(value = "a", defaultValue = "0") Float a,
 						   @RequestParam(value = "b", defaultValue = "0") Float b
 	)throws Exception {
 		if (0f == b){
@@ -76,19 +77,14 @@ public class DemoProjectApplication {
 			return division;
 		}
 		return Integer.valueOf(division.intValue());
-	}
+	}*/
 
-	/* Otro ejemplo con decimales
+	//Otro ejemplo con decimales
+	@GetMapping("/division")
 	public BigDecimal division(@RequestParam(value = "a", defaultValue = "0") BigDecimal a,
-							   @RequestParam(value = "b", defaultValue = "0") BigDecimal b
-	) trhows Exception{
-		if (b.equals(0)){
-			throw new Exception("Division by Zero");
-		}
-
-		return a.divide(b, 2, HALF_DOWN);
+							   @RequestParam(value = "b", defaultValue = "0") BigDecimal b){
+		return a.divide(b, 2, RoundingMode.HALF_DOWN);
 	}
-	*/
 
 	@GetMapping("/sqrt")
 	public Float sqrt(@RequestParam(value = "a", defaultValue = "0") Float a
