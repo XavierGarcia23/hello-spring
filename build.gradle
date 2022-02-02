@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id 'jacoco'
 	id 'pmd'
+	id 'info.solidsoft.pitest' version '1.7.0'
 }
 
 group = 'com.sinensia'
@@ -34,4 +35,13 @@ jacocoTestReport {
 pmd {
 	consoleOutput = true
 	ignoreFailures = true
+}
+
+// PITest requires these versions
+ext['junit-jupiter.version'] = '5.5.2'
+
+pitest {
+	junit5PluginVersion = '0.12'
+	outputFormats = ['XML', 'HTML']
+	timestampedReports = false
 }
